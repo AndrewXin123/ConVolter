@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>ConVolter</title>
+</head>
+
+<body>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+          const milesInput = document.getElementById('miles');
+          const timeInput = document.getElementById('time');
+  
+          milesInput.addEventListener('input', () => {
+            timeInput.disabled = milesInput.value !== '';
+          });
+  
+          timeInput.addEventListener('input', () => {
+            milesInput.disabled = timeInput.value !== '';
+          });
+        });
+      </script>
+
+    <script>
+        var letterCount = 0
+        const transportationData = [  ["Walking", 3.1, 30],
+        ["Boosted Mini S Board", 18, 7],
+        ["Evolve Bamboo GTR 2in1", 24, 31],
+        ["OneWheel XR", 19, 18],
+        ["MotoTec Skateboard", 22, 10],
+        ["Segway Ninebot S", 10, 13],
+        ["Segway Ninebot S-PLUS", 12, 22],
+        ["Razor Scooter", 18, 15],
+        ["GeoBlade 500", 15, 8],
+        ["Hovertrax Hoverboard", 9, 6]
+        ];
+
+
+        function makeTable(transport, miles) {
+            if (document.getElementById('miles').value) {
+                header = "Time Required";
+                conversionFactor = 1/60; // convert MPH to miles per minute
+            } else if (document.getElementById('time').value) {
+                header = "Distance Traveled";
+                conversionFactor = 1;
+            } else {
+                // Handle case where neither input is filled in
+                return;
+            }
+            var myHtmlContent = ""
+            for (var i = 0; i < transportationData.length; i++) {
+                myHtmlContent += "<tr><td class='active-row'>" + transportationData[i][0] + "</td>\n<td class='active-row'>"
+                if (header == "Time Required") {
+                    myHtmlContent += miles/transportationData[i][1] + " hours"
+                    if (miles > transportationData[i][2]) {
+                        myHtmlContent += " (OUT OF RANGE)"
+                    }
+                } else {
+                    myHtmlContent += miles * transportationData[i][1] + " miles"
+                }
+                
+                myHtmlContent += "</td></tr>"
+            }
+            var tableRef = document.getElementById('styled-table').getElementsByTagName('tbody')[0]
+            var newRow = tableRef;
+            document.getElementById('table-header').innerHTML = header;
+            newRow.innerHTML = myHtmlContent;
+        }
+
+    </script>
+
+
+    <!-- Basic Page Needs
+    ================================================== -->
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="keywords" content="">
+
+    <!-- Mobile Specific Metas
+    ================================================== -->
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,600,700" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
+
+    <!-- Stylesheets
+    ================================================== -->
+    <!-- Bootstrap core CSS -->
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="assets/css/style.css" rel="stylesheet">
+    <link href="assets/css/responsive.css" rel="stylesheet">
+
+    </head>
+
+    <body>
+        <header id="masthead" class="site-header">
+            <nav id="primary-navigation" class="site-navigation">
+                <div class="container">
+
+                    <div class="navbar-header">
+                        <a class="site-title">Con<span>Volt</span>er</a>
+                    </div><!-- /.navbar-header -->
+
+                    <div class="collapse navbar-collapse" id="agency-navbar-collapse">
+                        <ul class="nav navbar-nav navbar-right">
+                            <li class="active"><a href="index.html">Converter</a></li>
+                            <li><a href="https://github.com/" target="_blank">GitHub</a></li>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav><!-- /.site-navigation -->
+        </header><!-- /#mastheaed -->
+
+
+
+        <main id="main" class="site-main">
+
+            <section class="site-section section-features">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <h2>Transportation Conversion</h2>
+                        </div>
+                    </div>
+                </div>
+            </section><!-- /.section-features -->
+
+            <section class="site-section section-features">
+                <div class="container">
+                    <div class="selectpicker-checkboxes-radiobtn mt-50">
+                    <div class="row">
+                        <div class="col-sm-9">
+                            <div class="col-sm-5">
+                                <label for="selectpicker">Electric Transport:</label>
+                                <br>
+                                <select class="selectpicker" padding="30px">
+                                    <option>Walking</option>
+                                    <option>Boosted Mini S Board</option>
+                                    <option>Evolve Bamboo GTR 2in1</option>
+                                    <option>OneWheel XR</option>
+                                    <option>MotoTec Skateboard</option>
+                                    <option>Segway Ninebot S</option>
+                                    <option>Segway Ninebot S-PLUS</option>
+                                    <option>Razor Scooter</option>
+                                    <option>GeoBlade 500</option>
+                                    <option>Hovertrax Hoverboard</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-3">
+                                <label for="miles">Miles Traveled:</label>
+                                <input type="text" class="form-control" id="miles" required>
+                            </div>
+                            <div class="col-sm-3">
+                                <label for="time">Time Limit (hours):</label>
+                                <input type="text" class="form-control" id="time" required>
+                            </div>
+                        </div>
+                        <br>
+                        <button class="btn btn-green" onclick="if(document.getElementById('miles').value != '' || document.getElementById('time').value != ''){makeTable(document.querySelector('.selectpicker').value, document.getElementById('miles').value != '' ? document.getElementById('miles').value : document.getElementById('time').value);}">Calculate</button><br>
+                        <br>
+
+                            <table id="styled-table" class="styled-table">
+                                <thead>
+                                    <tr>
+                                        <th>Electric Transport</th>
+                                        <th id="table-header"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    <!-- and so on... -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+
+        </main><!-- /#main -->
+
+        <footer id="colophon" class="site-footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4 col-sm-4 col-xs-6">
+                        <a class="site-title">Con<span>Volt</span>er</a>
+                        <p>Built by Andrew Zhang for CS 160 (User Interface Design and Development).
+                        </p>
+                        <br>
+                        <ul class="list-unstyled contact-links">
+                            <li><i class="fa fa-map-marker" aria-hidden="true"></i>
+                                <p>University of California, Berkeley</p>
+                            </li>
+                        </ul>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </footer><!-- /#footer -->
+
+
+        <!-- Bootstrap core JavaScript
+    ================================================== -->
+        <!-- Placed at the end of the document so the pages load faster -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+        <script src="assets/js/bootstrap.min.js"></script>
+        <script src="assets/js/bootstrap-select.min.js"></script>
+        <script src="assets/js/jquery.slicknav.min.js"></script>
+        <script src="assets/js/jquery.countTo.min.js"></script>
+        <script src="assets/js/jquery.shuffle.min.js"></script>
+        <script src="assets/js/script.js"></script>
+
+    </body>
+
+</html>
